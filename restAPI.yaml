@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Movie theater seat check API
+  description: The api allows users to check the seats that are availible for a selected movie
+paths:
+  /movies/{movie_id}/seats:
+    get: 
+      summary: get available seats for movie
+      parameters:
+        - name: movie_id
+          in: path
+          description: the movies id
+          required: true
+          shema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful response
+          content: 
+            application/json:
+              shema:
+                type: object
+                properties:
+                  movieId:
+                    type: integer
+                    description: moivies id
+                  availableSeats:
+                    type: integer
+                    description: the amount of seats left
+        '404':
+          description: Movie doesnt exist
+    Post:
+      summary: select movie seats
+      requestBody:
+        required: true
+        content:
+          application/json:
+            shema:
+              type: object
+              properties:
+                movieId:
+                  type: integer
+                  description: movies id
+                seatsPicked:
+                  type: integer
+                  description: amount of seats picked
+      responses:
+        '200':
+          description: success!
+        '400'
+          description: invalid selection
+        '404'
+          description: movie wasnt found
+    Delete:
+      summary: cancel reservation
+      parameters: 
+        - name: movie_id
+          in: path
+          description: the movies id
+          required: true
+          shema:
+            type: integer
+            format: int64
+        - name: reservationId
+          in: query
+          required: true
+          shema:
+            type: string
+      responses:
+        '200':
+          description: success!
+        '400'
+          description: invalid id
+        '404'
+          description: reservation not cancelled.
